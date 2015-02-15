@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var fs   = require('fs');
+var lib  = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
+
+if(process.argv.indexOf('-e') < 0 && process.argv.indexOf('--extension') < 0) {
+    process.argv.push('-e');
+    process.argv.push('js');
+}
+
+var tags = {
+    print: require(lib + '/tags/print'),
+    riot: require(lib + '/tags/riot')
+};
+
+var predicts = {
+    exp: require(lib + '/predicts/exp'),
+    if: require(lib + '/predicts/if'),
+    each: require(lib + '/predicts/each')
+};
+
+require('sleet/lib/command').run({tags: tags, predicts: predicts});
